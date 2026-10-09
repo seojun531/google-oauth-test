@@ -12,6 +12,8 @@ export class User{
     username:string
     @Column({type:'datetime',default:()=>'CURRENT_TIMESTAMP'})
     createdDt:Date=new Date()
+    @Column({type:'datetime',nullable:true})
+    updatedDt?:Date
     
 
 
