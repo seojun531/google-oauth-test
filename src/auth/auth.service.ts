@@ -22,4 +22,15 @@ export class AuthService {
         const { password: _password, ...userWithoutPassword } = user;
         return userWithoutPassword;
     }
+
+    async validateUser(email:string,password:string){
+        const user=await this.userService.getUser(email)
+
+        if(!user) return null
+        const {password:_password, ...userWithoutPassword}=user
+        if(bcrypt.compareSync(password,_password)){
+            return userWithoutPassword
+        }
+        return null
+    }
 }
