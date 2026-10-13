@@ -1,5 +1,8 @@
 import { Controller, Get,
-  Body,Post,Param,Put,Delete
+  Body,Post,Param,Put,Delete,
+  Render,
+  Redirect,
+  Response
  } from '@nestjs/common';
  import { UserService } from './user.service';
  import { User } from './user.entity';
@@ -11,9 +14,12 @@ export class UserController {
     constructor(private userService:UserService){}
     
     @Post('/create')
-    createUser(@Body() user:CreateUserDto){
-        return this.userService.createUser(user)
+    @Redirect('/home',303)
+    async createUser(@Body() user:CreateUserDto, @Response() res:any){
+         await this.userService.createUser(user)
+         
     }
+    
 
     @Get('/getUser/:email')
     async getUser(@Param('email') email:string){
@@ -32,5 +38,5 @@ export class UserController {
     deleteUser(@Param('email') email:string){
         return this.userService.deleteUser(email)
     }
-
+    
 }

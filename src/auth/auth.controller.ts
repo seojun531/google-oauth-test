@@ -1,15 +1,25 @@
 import { Controller,Post,Body,Get,Request,Response ,UseGuards} from '@nestjs/common';
 import { CreateUserDto } from '../user/user.dto';
 import { AuthService } from './auth.service';
-import { LoginGuard } from './auth.guard';
+import { LoginGuard,AuthenticatedGuard,LocalAuthGuard } from './auth.guard';
+import { Render,Redirect } from '@nestjs/common';
+import { title } from 'process';
 
 @Controller('auth')
 export class AuthController {
     constructor(private authService:AuthService ){}
+    @Get('/register')
+        @Render('createUser')
+        getUserInfo(){
+            return {title:'회원가입'}
+        }
 
     @Post('register')
+    @Redirect('/login3',303)
     async register(@Body() userDto:CreateUserDto){
-        return await this.authService.register(userDto)
+         await this.authService.register(userDto)
+         
+         
     }
 
     @Post('login')
@@ -37,5 +47,24 @@ export class AuthController {
     @Get('test-guard')
     testGuard(){
         return '로그인 시에만 이 글이 보입니다'
+    }
+    @Get('login3')
+    @Render('login3')
+    loginAttemp(){
+        return {title:'로그인'}
+    }
+    @UseGuards(LocalAuthGuard)
+    @Post('login3')
+   
+    login3(@Request() req:any, @Response() res:any){
+        req.user
+        const email=req.user.email
+        res.redirect(303,`/home/${email}`)
+
+    }
+    @UseGuards(AuthenticatedGuard)
+    @Get('test-guard2')
+    testGuardWithSession(@Request() req:any){
+        return req.user
     }
 }
