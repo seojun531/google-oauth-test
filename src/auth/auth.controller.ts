@@ -15,7 +15,7 @@ export class AuthController {
         }
 
     @Post('register')
-    @Redirect('/login3',303)
+    @Redirect('/auth/login3',303)
     async register(@Body() userDto:CreateUserDto){
          await this.authService.register(userDto)
          

@@ -14,7 +14,6 @@ export class User{
     createdDt:Date=new Date()
     @Column({type:'datetime',nullable:true})
     updatedDt?:Date
-    
 
 
 }

@@ -6,7 +6,8 @@ import  session from 'express-session'
 import passport from 'passport';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path'
-
+import * as hbs from 'hbs'
+import {registerHbsHelpers} from './configs/hbs.helpers'
 
 
 async function bootstrap() {
@@ -14,6 +15,8 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setViewEngine('hbs')
+  registerHbsHelpers()
+  app.engine('hbs', hbs.__express);
   app.useGlobalPipes(new ValidationPipe());
     app.use(cookieParser());
     app.use(session({

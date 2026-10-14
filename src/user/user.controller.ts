@@ -19,12 +19,13 @@ export class UserController {
          await this.userService.createUser(user)
          
     }
-    @Get('/userInfo')
-    @Render('userInfo')
+    @Get('/userInfo/:email')
+    @Render('user_info')
     async getUserInfo(@Param('email') email:string){
-        const user=await this.userService.getUser(email)
-        console.log(user)
-        return user
+        const userInfo=await this.userService.getUser(email)
+        
+        return {userInfo}
+        
     }
 
     @Get('/getUser/:email')

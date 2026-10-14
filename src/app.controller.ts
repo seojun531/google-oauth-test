@@ -11,7 +11,7 @@ export class AppController {
   @Get('/home/:email')
     @Render('home')
     createSuccess(@Param('email') email:string){
-        return {title:'로그인성공'}
+        return {title:'로그인성공',email}
     }
 
   @Get()
