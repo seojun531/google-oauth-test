@@ -1,7 +1,7 @@
 import { Controller,Post,Body,Get,Request,Response ,UseGuards} from '@nestjs/common';
 import { CreateUserDto } from '../user/user.dto';
 import { AuthService } from './auth.service';
-import { LoginGuard,AuthenticatedGuard,LocalAuthGuard } from './auth.guard';
+import { LoginGuard,AuthenticatedGuard,LocalAuthGuard, GoogleAuthGuard } from './auth.guard';
 import { Render,Redirect } from '@nestjs/common';
 import { title } from 'process';
 
@@ -67,4 +67,15 @@ export class AuthController {
     testGuardWithSession(@Request() req:any){
         return req.user
     }
+    @Get('to-google')
+    @UseGuards(GoogleAuthGuard)
+    async googleAuth(@Request() req:any){}
+    
+    @Get('google')
+    @UseGuards(GoogleAuthGuard)
+    async googleAuthRedirect(@Request() req:any,@Response() res:any){
+        const {user}=req
+        return res.send(user)
+    }
+    
 }

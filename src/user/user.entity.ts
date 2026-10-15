@@ -6,7 +6,7 @@ export class User{
     id?:number
     @Column({unique:true})
     email:string
-    @Column()
+    @Column({nullable:true})
     password:string
     @Column()
     username:string
@@ -14,6 +14,8 @@ export class User{
     createdDt:Date=new Date()
     @Column({type:'datetime',nullable:true})
     updatedDt?:Date
+    @Column({nullable:true})
+    providerId:string
 
 
 }
